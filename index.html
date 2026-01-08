@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Party Game</title>
+
+  <!-- favicon evita erro CORB -->
+  <link rel="icon" href="data:,">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Party Game 🎉</h1>
+
+<div id="menu">
+  <input id="nome" placeholder="Seu nome">
+  <br>
+  <button onclick="criarSala()">Criar Sala</button>
+  <br><br>
+  <input id="codigoSala" placeholder="Código da sala">
+  <br>
+  <button onclick="entrarSala()">Entrar</button>
+</div>
+
+<h2 id="codigo"></h2>
+<h3 id="pergunta"></h3>
+
+<input id="resposta" placeholder="Sua resposta">
+<button onclick="enviarResposta()">Enviar</button>
+
+<ul id="respostas"></ul>
+<ul id="ranking"></ul>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
