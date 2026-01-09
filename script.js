@@ -15,9 +15,6 @@ socket.on("connect_error", err => {
 });
 
 /* ================= AÇÕES ================= */
-function iniciarRodada() {
-  socket.emit("novaPergunta", salaAtual);
-}
 
 function criarSala() {
   socket.emit("criarSala");
@@ -34,28 +31,31 @@ function entrarSala() {
   socket.emit("entrarSala", { sala, nome });
 }
 
+function iniciarRodada() {
+  if (!salaAtual) {
+    alert("Entre em uma sala primeiro");
+    return;
+  }
+  socket.emit("novaPergunta", salaAtual);
+}
+
 function enviarResposta() {
   const resposta = document.getElementById("resposta").value;
+
   socket.emit("responder", {
     sala: salaAtual,
     resposta
   });
-} 
 
-socket.on("jogadores", lista => {
-  console.log("Jogadores na sala:", lista);
+  document.getElementById("resposta").value = "";
+}
 
+/* ================= EVENTOS DO SERVIDOR ================= */
+
+socket.on("salaCriada", codigo => {
+  salaAtual = codigo;
   document.getElementById("codigo").innerText =
-    "Sala ativa";
-
-  const ul = document.getElementById("ranking");
-  ul.innerHTML = "";
-
-  lista.forEach(nome => {
-    const li = document.createElement("li");
-    li.innerText = nome;
-    ul.appendChild(li);
-  });
+    "Código da sala: " + codigo;
 });
 
 socket.on("entrouSala", sala => {
@@ -63,15 +63,15 @@ socket.on("entrouSala", sala => {
   console.log("Entrou na sala:", sala);
 });
 
+/* 👇 ESTE EVENTO É ESSENCIAL */
+socket.on("pergunta", texto => {
+  console.log("❓ Pergunta recebida:", texto);
 
-/* ================= EVENTOS ================= */
+  document.getElementById("pergunta").innerText = texto;
+});
 
+/* 👇 LISTA DE JOGADORES */
 socket.on("jogadores", lista => {
-  console.log("Jogadores na sala:", lista);
-
-  document.getElementById("codigo").innerText =
-    "Sala ativa";
-
   const ul = document.getElementById("ranking");
   ul.innerHTML = "";
 
@@ -80,13 +80,6 @@ socket.on("jogadores", lista => {
     li.innerText = nome;
     ul.appendChild(li);
   });
-});
-
-
-socket.on("salaCriada", codigo => {
-  salaAtual = codigo;
-  document.getElementById("codigo").innerText =
-    "Código da sala: " + codigo;
 });
 
 socket.on("erro", msg => {
