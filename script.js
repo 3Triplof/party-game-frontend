@@ -37,7 +37,24 @@ function enviarResposta() {
     sala: salaAtual,
     resposta
   });
-}
+} 
+
+socket.on("jogadores", lista => {
+  console.log("Jogadores na sala:", lista);
+
+  document.getElementById("codigo").innerText =
+    "Sala ativa";
+
+  const ul = document.getElementById("ranking");
+  ul.innerHTML = "";
+
+  lista.forEach(nome => {
+    const li = document.createElement("li");
+    li.innerText = nome;
+    ul.appendChild(li);
+  });
+});
+
 
 /* ================= EVENTOS ================= */
 
