@@ -15,6 +15,9 @@ socket.on("connect_error", err => {
 });
 
 /* ================= AÇÕES ================= */
+function iniciarRodada() {
+  socket.emit("novaPergunta", salaAtual);
+}
 
 function criarSala() {
   socket.emit("criarSala");
