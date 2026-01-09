@@ -55,6 +55,11 @@ socket.on("jogadores", lista => {
   });
 });
 
+socket.on("entrouSala", sala => {
+  salaAtual = sala;
+  console.log("Entrou na sala:", sala);
+});
+
 
 /* ================= EVENTOS ================= */
 
