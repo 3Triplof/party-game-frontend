@@ -64,8 +64,13 @@ socket.on("salaCriada", codigo => {
   document.getElementById("menu").style.display = "none";
   document.getElementById("jogo").style.display = "block";
 
-  document.getElementById("btnRodada").style.display = "block";
-  document.getElementById("aguarde").style.display = "none";
+  const btn = document.getElementById("btnRodada");
+const aguarde = document.getElementById("aguarde");
+
+if (btn) btn.style.display = "block";
+if (aguarde) aguarde.style.display = "none";
+
+  
 });
 
 
@@ -80,11 +85,19 @@ socket.on("entrouSala", data => {
   document.getElementById("jogo").style.display = "block";
 
   if (souHost) {
-    document.getElementById("btnRodada").style.display = "block";
-    document.getElementById("aguarde").style.display = "none";
+    const btn = document.getElementById("btnRodada");
+const aguarde = document.getElementById("aguarde");
+
+if (btn) btn.style.display = "block";
+if (aguarde) aguarde.style.display = "none";
+
   } else {
-    document.getElementById("btnRodada").style.display = "none";
-    document.getElementById("aguarde").style.display = "block";
+    const btn = document.getElementById("btnRodada");
+const aguarde = document.getElementById("aguarde");
+
+if (btn) btn.style.display = "block";
+if (aguarde) aguarde.style.display = "none";
+
   }
 });
 
