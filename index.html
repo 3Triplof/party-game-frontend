@@ -12,7 +12,7 @@
 <body>
 
 <h1>Party Game 🎉</h1>
-
+  
 <div id="menu">
   <input id="nome" placeholder="Seu nome">
   <br>
@@ -23,15 +23,20 @@
   <button onclick="entrarSala()">Entrar</button>
 </div>
 
-<h2 id="codigo"></h2>
-<h3 id="pergunta"></h3>
 
-<input id="resposta" placeholder="Sua resposta">
-<button onclick="enviarResposta()">Enviar</button>
-<button onclick="iniciarRodada()">Iniciar Rodada</button>
+<div id="jogo" style="display:none;">
 
-<ul id="respostas"></ul>
-<ul id="ranking"></ul>
+  <h2 id="codigo"></h2>
+  <h3 id="pergunta"></h3>
+
+  <input id="resposta" placeholder="Sua resposta">
+  <button onclick="enviarResposta()">Enviar</button>
+
+  <br><br>
+  <button onclick="iniciarRodada()">Iniciar Rodada</button>
+
+  <ul id="ranking"></ul>
+</div>
 
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="script.js"></script>
