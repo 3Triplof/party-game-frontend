@@ -54,21 +54,27 @@ function enviarResposta() {
 
 socket.on("salaCriada", codigo => {
   salaAtual = codigo;
+
   document.getElementById("codigo").innerText =
     "Código da sala: " + codigo;
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
 });
 
-socket.on("entrouSala", sala => {
+
+  socket.on("entrouSala", sala => {
   salaAtual = sala;
+
+  document.getElementById("codigo").innerText =
+    "Sala: " + sala;
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
+
   console.log("Entrou na sala:", sala);
 });
 
-/* 👇 ESTE EVENTO É ESSENCIAL */
-socket.on("pergunta", texto => {
-  console.log("❓ Pergunta recebida:", texto);
-
-  document.getElementById("pergunta").innerText = texto;
-});
 
 /* 👇 LISTA DE JOGADORES */
 socket.on("jogadores", lista => {
