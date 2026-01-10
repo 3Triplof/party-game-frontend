@@ -87,8 +87,6 @@ socket.on("entrouSala", sala => {
 
 socket.on("pergunta", texto => {
   document.getElementById("pergunta").innerText = texto;
-  console.log("🎮 novaPergunta recebida de", socket.id, "para sala", sala);
-
 });
 
 socket.on("jogadores", lista => {
