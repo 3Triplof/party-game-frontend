@@ -16,16 +16,6 @@ socket.on("connect_error", err => {
 
 /* ================= AÇÕES ================= */
 
-socket.on("salaCriada", codigo => {
-  salaAtual = codigo;
-
-  document.getElementById("codigo").innerText =
-    "Código da sala: " + codigo;
-
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("jogo").style.display = "block";
-});
-
 socket.on("entrouSala", sala => {
   salaAtual = sala;
 
