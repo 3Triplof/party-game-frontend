@@ -3,6 +3,8 @@ console.log("JS carregado");
 const socket = io("https://party-game-server-bs3h.onrender.com");
 
 let salaAtual = "";
+let souHost = false;
+
 
 /* ================= CONEXÃO ================= */
 
@@ -54,25 +56,38 @@ function enviarResposta() {
 
 socket.on("salaCriada", codigo => {
   salaAtual = codigo;
+  souHost = true;
 
   document.getElementById("codigo").innerText =
     "Código da sala: " + codigo;
 
   document.getElementById("menu").style.display = "none";
   document.getElementById("jogo").style.display = "block";
+
+  document.getElementById("btnRodada").style.display = "block";
+  document.getElementById("aguarde").style.display = "none";
 });
 
-socket.on("entrouSala", sala => {
-  salaAtual = sala;
+
+socket.on("entrouSala", data => {
+  salaAtual = data.sala;
+  souHost = data.isHost;
 
   document.getElementById("codigo").innerText =
-    "Sala: " + sala;
+    "Sala: " + data.sala;
 
   document.getElementById("menu").style.display = "none";
   document.getElementById("jogo").style.display = "block";
 
-  console.log("Entrou na sala:", sala);
+  if (souHost) {
+    document.getElementById("btnRodada").style.display = "block";
+    document.getElementById("aguarde").style.display = "none";
+  } else {
+    document.getElementById("btnRodada").style.display = "none";
+    document.getElementById("aguarde").style.display = "block";
+  }
 });
+
 
 socket.on("pergunta", texto => {
   document.getElementById("pergunta").innerText = texto;
