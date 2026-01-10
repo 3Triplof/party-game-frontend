@@ -16,9 +16,28 @@ socket.on("connect_error", err => {
 
 /* ================= AÇÕES ================= */
 
-function criarSala() {
-  socket.emit("criarSala");
-}
+socket.on("salaCriada", codigo => {
+  salaAtual = codigo;
+
+  document.getElementById("codigo").innerText =
+    "Código da sala: " + codigo;
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
+});
+
+socket.on("entrouSala", sala => {
+  salaAtual = sala;
+
+  document.getElementById("codigo").innerText =
+    "Sala: " + sala;
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
+
+  console.log("Entrou na sala:", sala);
+});
+
 
 function entrarSala() {
   const sala = document
@@ -46,6 +65,8 @@ function enviarResposta() {
     sala: salaAtual,
     resposta
   });
+
+  
 
   document.getElementById("resposta").value = "";
 }
