@@ -14,20 +14,11 @@ socket.on("connect_error", err => {
   console.error("❌ Erro:", err.message);
 });
 
-/* ================= AÇÕES ================= */
+/* ================= AÇÕES (FUNÇÕES DO HTML) ================= */
 
-socket.on("entrouSala", sala => {
-  salaAtual = sala;
-
-  document.getElementById("codigo").innerText =
-    "Sala: " + sala;
-
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("jogo").style.display = "block";
-
-  console.log("Entrou na sala:", sala);
-});
-
+function criarSala() {
+  socket.emit("criarSala");
+}
 
 function entrarSala() {
   const sala = document
@@ -56,8 +47,6 @@ function enviarResposta() {
     resposta
   });
 
-  
-
   document.getElementById("resposta").value = "";
 }
 
@@ -73,8 +62,7 @@ socket.on("salaCriada", codigo => {
   document.getElementById("jogo").style.display = "block";
 });
 
-
-  socket.on("entrouSala", sala => {
+socket.on("entrouSala", sala => {
   salaAtual = sala;
 
   document.getElementById("codigo").innerText =
@@ -86,8 +74,10 @@ socket.on("salaCriada", codigo => {
   console.log("Entrou na sala:", sala);
 });
 
+socket.on("pergunta", texto => {
+  document.getElementById("pergunta").innerText = texto;
+});
 
-/* 👇 LISTA DE JOGADORES */
 socket.on("jogadores", lista => {
   const ul = document.getElementById("ranking");
   ul.innerHTML = "";
