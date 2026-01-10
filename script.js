@@ -5,44 +5,48 @@ const socket = io("https://party-game-server-bs3h.onrender.com");
 let salaAtual = "";
 let souHost = false;
 
-
 /* ================= CONEXÃO ================= */
 
 socket.on("connect", () => {
   console.log("✅ Conectado:", socket.id);
 });
 
-socket.on("connect_error", err => {
-  console.error("❌ Erro:", err.message);
-});
-
-/* ================= AÇÕES (FUNÇÕES DO HTML) ================= */
+/* ================= AÇÕES ================= */
 
 function criarSala() {
-  socket.emit("criarSala");
+  const nome = document.getElementById("nome").value;
+  if (!nome) return alert("Digite seu nome");
+
+  souHost = true;
+  socket.emit("criarSala", nome);
 }
 
 function entrarSala() {
-  const sala = document
-    .getElementById("codigoSala")
-    .value
-    .toUpperCase();
-
+  const sala = document.getElementById("codigoSala").value.toUpperCase();
   const nome = document.getElementById("nome").value;
 
+  if (!sala || !nome) {
+    alert("Preencha nome e código");
+    return;
+  }
+
+  souHost = false;
   socket.emit("entrarSala", { sala, nome });
 }
 
 function iniciarRodada() {
-  if (!salaAtual) {
-    alert("Entre em uma sala primeiro");
+  if (!souHost) {
+    alert("Apenas o host pode iniciar a rodada");
     return;
   }
+
   socket.emit("novaPergunta", salaAtual);
 }
 
 function enviarResposta() {
   const resposta = document.getElementById("resposta").value;
+
+  if (!resposta) return;
 
   socket.emit("responder", {
     sala: salaAtual,
@@ -50,57 +54,36 @@ function enviarResposta() {
   });
 
   document.getElementById("resposta").value = "";
+  alert("Resposta enviada!");
 }
 
 /* ================= EVENTOS DO SERVIDOR ================= */
 
 socket.on("salaCriada", codigo => {
   salaAtual = codigo;
-  souHost = true;
 
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
   document.getElementById("codigo").innerText =
     "Código da sala: " + codigo;
 
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("jogo").style.display = "block";
-
-  const btn = document.getElementById("btnRodada");
-const aguarde = document.getElementById("aguarde");
-
-if (btn) btn.style.display = "block";
-if (aguarde) aguarde.style.display = "none";
-
-  
+  // Host vê botão
+  document.getElementById("btnRodada").style.display = "inline-block";
+  document.getElementById("aguarde").style.display = "none";
 });
 
+socket.on("entrouSala", sala => {
+  salaAtual = sala;
 
-socket.on("entrouSala", data => {
-  salaAtual = data.sala;
-  souHost = data.isHost;
-
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("jogo").style.display = "block";
   document.getElementById("codigo").innerText =
-    "Sala: " + data.sala;
+    "Sala: " + sala;
 
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("jogo").style.display = "block";
-
-  if (souHost) {
-    const btn = document.getElementById("btnRodada");
-const aguarde = document.getElementById("aguarde");
-
-if (btn) btn.style.display = "block";
-if (aguarde) aguarde.style.display = "none";
-
-  } else {
-    const btn = document.getElementById("btnRodada");
-const aguarde = document.getElementById("aguarde");
-
-if (btn) btn.style.display = "block";
-if (aguarde) aguarde.style.display = "none";
-
-  }
+  // Jogador vê aguarde
+  document.getElementById("btnRodada").style.display = "none";
+  document.getElementById("aguarde").style.display = "block";
 });
-
 
 socket.on("pergunta", texto => {
   document.getElementById("pergunta").innerText = texto;
