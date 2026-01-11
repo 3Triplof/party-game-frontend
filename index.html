@@ -4,14 +4,12 @@
   <meta charset="UTF-8" />
   <title>TRIPLO F Party Game</title>
 
-  <!-- favicon evita erro CORB -->
   <link rel="icon" href="data:,">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>TRIPLO F - Party Game 🎉</h1>
+<h1>🎉 TRIPLO F - Party Game</h1>
 
 <!-- ================= MENU ================= -->
 <div id="menu">
@@ -28,23 +26,30 @@
 <div id="jogo" style="display:none;">
 
   <h2 id="codigo"></h2>
-  <h3 id="pergunta"></h3>
 
-  <input id="resposta" placeholder="Sua resposta">
-  <button onclick="enviarResposta()">Enviar</button>
+  <!-- ================= PERGUNTA ================= -->
+  <div id="areaPergunta">
+    <h3 id="pergunta"></h3>
 
-  <br><br>
+    <!-- RESPOSTAS -->
+    <div id="respostas">
+      <button onclick="responder('A')">A</button>
+      <button onclick="responder('B')">B</button>
+      <button onclick="responder('C')">C</button>
+      <button onclick="responder('D')">D</button>
+    </div>
+  </div>
 
-  <!-- 👑 BOTÃO SOMENTE PARA O HOST -->
+  <!-- 👑 HOST -->
   <button
     id="btnRodada"
     onclick="iniciarRodada()"
     style="display:none;"
   >
-    Iniciar Rodada
+    ▶ Iniciar Rodada
   </button>
 
-  <!-- 👥 TEXTO PARA JOGADORES -->
+  <!-- 👥 JOGADORES -->
   <p
     id="aguarde"
     style="display:none; font-weight:bold;"
@@ -52,7 +57,8 @@
     ⏳ Aguardando o host iniciar a rodada...
   </p>
 
- <div id="ranking" class="ranking hidden"></div>
+  <!-- ================= RANKING FINAL ================= -->
+  <div id="ranking" class="ranking hidden"></div>
 
 </div>
 
