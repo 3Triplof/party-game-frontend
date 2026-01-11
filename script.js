@@ -88,10 +88,13 @@ socket.on("entrouSala", sala => {
 
 socket.on("pergunta", texto => {
   document.getElementById("pergunta").innerText = texto;
-});
 
-socket.on("erro", msg => {
-  alert(msg);
+  document.getElementById("ranking").innerHTML = "";
+  document.getElementById("ranking").classList.add("hidden");
+
+  document
+    .querySelectorAll(".btn-opcao")
+    .forEach(btn => btn.disabled = false);
 });
 
 /* ================= FEEDBACK ================= */
@@ -103,8 +106,6 @@ socket.on("resultadoResposta", ({ correta, pontos }) => {
       : `❌ Errado!`
   );
 });
-
-/* ================= RANKING ================= */
 
 socket.on("ranking", ranking => {
   const div = document.getElementById("ranking");
@@ -124,4 +125,11 @@ socket.on("ranking", ranking => {
 
     div.appendChild(item);
   });
+
+  // 🔓 host pode iniciar nova rodada
+  if (souHost) {
+    document.getElementById("btnRodada").style.display =
+      "inline-block";
+  }
 });
+
