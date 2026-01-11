@@ -4,6 +4,7 @@ const socket = io("https://party-game-server-bs3h.onrender.com");
 
 let salaAtual = "";
 let souHost = false;
+let respondeu = false;
 
 /* ================= CONEXÃO ================= */
 
@@ -14,7 +15,7 @@ socket.on("connect", () => {
 /* ================= AÇÕES ================= */
 
 function criarSala() {
-  const nome = document.getElementById("nome").value;
+  const nome = document.getElementById("nome").value.trim();
   if (!nome) return alert("Digite seu nome");
 
   souHost = true;
@@ -22,8 +23,8 @@ function criarSala() {
 }
 
 function entrarSala() {
-  const sala = document.getElementById("codigoSala").value.toUpperCase();
-  const nome = document.getElementById("nome").value;
+  const sala = document.getElementById("codigoSala").value.trim().toUpperCase();
+  const nome = document.getElementById("nome").value.trim();
 
   if (!sala || !nome) {
     alert("Preencha nome e código");
@@ -35,18 +36,30 @@ function entrarSala() {
 }
 
 function iniciarRodada() {
-  if (!souHost) {
-    alert("Apenas o host pode iniciar a rodada");
-    return;
-  }
+  if (!souHost) return;
+
+  respondeu = false;
+  document.getElementById("ranking").innerHTML = "";
+  document.getElementById("ranking").classList.add("hidden");
 
   socket.emit("novaPergunta", salaAtual);
 }
 
 function enviarResposta() {
-  const resposta = document.getElementById("resposta").value;
+  if (respondeu) return;
 
+  let resposta = document.getElementById("resposta").value.trim();
   if (!resposta) return;
+
+  // ✅ NORMALIZA: pega só a primeira letra
+  resposta = resposta.toUpperCase()[0];
+
+  if (!["A", "B", "C", "D"].includes(resposta)) {
+    alert("Digite apenas A, B, C ou D");
+    return;
+  }
+
+  respondeu = true;
 
   socket.emit("responder", {
     sala: salaAtual,
@@ -54,7 +67,6 @@ function enviarResposta() {
   });
 
   document.getElementById("resposta").value = "";
-  alert("Resposta enviada!");
 }
 
 /* ================= EVENTOS DO SERVIDOR ================= */
@@ -67,7 +79,6 @@ socket.on("salaCriada", codigo => {
   document.getElementById("codigo").innerText =
     "Código da sala: " + codigo;
 
-  // Host vê botão
   document.getElementById("btnRodada").style.display = "inline-block";
   document.getElementById("aguarde").style.display = "none";
 });
@@ -80,40 +91,31 @@ socket.on("entrouSala", sala => {
   document.getElementById("codigo").innerText =
     "Sala: " + sala;
 
-  // Jogador vê aguarde
   document.getElementById("btnRodada").style.display = "none";
   document.getElementById("aguarde").style.display = "block";
 });
 
 socket.on("pergunta", texto => {
+  respondeu = false;
+
   document.getElementById("pergunta").innerText = texto;
+  document.getElementById("resposta").disabled = false;
 });
 
+/* ⚠️ NÃO USAR ranking para lista de jogadores */
 socket.on("jogadores", lista => {
-  const ul = document.getElementById("ranking");
-  ul.innerHTML = "";
-
-  lista.forEach(nome => {
-    const li = document.createElement("li");
-    li.innerText = nome;
-    ul.appendChild(li);
-  });
+  console.log("Jogadores na sala:", lista);
 });
-
-socket.on("erro", msg => {
-  alert(msg);
-});
-
-
 
 socket.on("resultadoResposta", ({ correta, pontos }) => {
+  document.getElementById("resposta").disabled = true;
+
   alert(
     correta
       ? `✅ Correto! +${pontos} pontos`
       : `❌ Errado!`
   );
 });
-
 
 socket.on("ranking", ranking => {
   const div = document.getElementById("ranking");
@@ -126,8 +128,6 @@ socket.on("ranking", ranking => {
 
     if (index === 0) item.classList.add("vencedor");
 
-    item.style.animationDelay = `${index * 0.2}s`;
-
     item.innerHTML = `
       <span>#${index + 1} ${player.nome}</span>
       <span>${player.pontos} pts</span>
@@ -137,4 +137,6 @@ socket.on("ranking", ranking => {
   });
 });
 
-
+socket.on("erro", msg => {
+  alert(msg);
+});
