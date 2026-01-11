@@ -4,7 +4,6 @@ const socket = io("https://party-game-server-bs3h.onrender.com");
 
 let salaAtual = "";
 let souHost = false;
-let respondeu = false;
 
 /* ================= CONEXÃO ================= */
 
@@ -36,25 +35,22 @@ function entrarSala() {
 }
 
 function iniciarRodada() {
-  if (!souHost) return;
-
-  respondeu = false;
-  document.getElementById("ranking").innerHTML = "";
-  document.getElementById("ranking").classList.add("hidden");
+  if (!souHost) {
+    alert("Apenas o host pode iniciar a rodada");
+    return;
+  }
 
   socket.emit("novaPergunta", salaAtual);
 }
 
-function responder(letra) {
-  if (respondeu) return;
-
-  respondeu = true;
+function enviarResposta() {
+  const resposta = document.getElementById("resposta").value.trim().toUpperCase();
+  if (!resposta) return;
 
   socket.emit("responder", {
     sala: salaAtual,
-    resposta: letra
+    resposta
   });
-}
 
   document.getElementById("resposta").value = "";
 }
@@ -86,26 +82,24 @@ socket.on("entrouSala", sala => {
 });
 
 socket.on("pergunta", texto => {
-  respondeu = false;
-
   document.getElementById("pergunta").innerText = texto;
-  document.getElementById("resposta").disabled = false;
 });
 
-/* ⚠️ NÃO USAR ranking para lista de jogadores */
-socket.on("jogadores", lista => {
-  console.log("Jogadores na sala:", lista);
+socket.on("erro", msg => {
+  alert(msg);
 });
+
+/* ================= FEEDBACK ================= */
 
 socket.on("resultadoResposta", ({ correta, pontos }) => {
-  document.getElementById("resposta").disabled = true;
-
   alert(
     correta
       ? `✅ Correto! +${pontos} pontos`
       : `❌ Errado!`
   );
 });
+
+/* ================= RANKING ================= */
 
 socket.on("ranking", ranking => {
   const div = document.getElementById("ranking");
@@ -125,8 +119,4 @@ socket.on("ranking", ranking => {
 
     div.appendChild(item);
   });
-});
-
-socket.on("erro", msg => {
-  alert(msg);
 });
