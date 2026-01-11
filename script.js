@@ -108,9 +108,12 @@ socket.on("resultadoResposta", ({ correta, pontos }) => {
 });
 
 socket.on("ranking", ranking => {
+  console.log("🏆 Ranking recebido:", ranking);
+
   const div = document.getElementById("ranking");
   div.innerHTML = "";
   div.classList.remove("hidden");
+  div.style.display = "block";
 
   ranking.forEach((player, index) => {
     const item = document.createElement("div");
@@ -126,10 +129,9 @@ socket.on("ranking", ranking => {
     div.appendChild(item);
   });
 
-  // 🔓 host pode iniciar nova rodada
   if (souHost) {
-    document.getElementById("btnRodada").style.display =
-      "inline-block";
+    document.getElementById("btnRodada").style.display = "inline-block";
   }
 });
+
 
