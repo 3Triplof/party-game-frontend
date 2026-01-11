@@ -137,5 +137,4 @@ socket.on("ranking", ranking => {
   });
 });
 
-});
 
