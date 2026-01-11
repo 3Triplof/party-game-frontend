@@ -116,13 +116,26 @@ socket.on("resultadoResposta", ({ correta, pontos }) => {
 
 
 socket.on("ranking", ranking => {
-  const lista = document.getElementById("ranking");
-  lista.innerHTML = "";
+  const div = document.getElementById("ranking");
+  div.innerHTML = "";
+  div.classList.remove("hidden");
 
-  ranking.forEach(j => {
-    const li = document.createElement("li");
-    li.textContent = `${j.nome}: ${j.pontos} pts`;
-    lista.appendChild(li);
+  ranking.forEach((player, index) => {
+    const item = document.createElement("div");
+    item.className = "ranking-item";
+
+    if (index === 0) item.classList.add("vencedor");
+
+    item.style.animationDelay = `${index * 0.2}s`;
+
+    item.innerHTML = `
+      <span>#${index + 1} ${player.nome}</span>
+      <span>${player.pontos} pts</span>
+    `;
+
+    div.appendChild(item);
   });
+});
+
 });
 
