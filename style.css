@@ -1,32 +1,106 @@
+/* ================= RESET BÁSICO ================= */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #111;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at top, #1b1b1b, #000);
   color: #fff;
   text-align: center;
+  margin: 0;
+  padding: 20px;
 }
 
-input, button {
-  padding: 10px;
-  margin: 6px;
+/* ================= TÍTULOS ================= */
+h1 {
+  margin-bottom: 20px;
 }
 
+h2 {
+  color: #00e5ff;
+}
+
+h3 {
+  margin-bottom: 20px;
+}
+
+/* ================= INPUTS ================= */
+input {
+  padding: 12px;
+  margin: 8px;
+  width: 220px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+/* ================= BOTÕES ================= */
 button {
+  padding: 12px 18px;
+  margin: 6px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  background: linear-gradient(135deg, #00e5ff, #008cff);
+  color: #000;
+  transition: transform 0.15s, opacity 0.15s;
 }
 
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================= RESPOSTAS ================= */
+#respostas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 320px;
+  margin: 0 auto 20px;
+}
+
+.btn-opcao {
+  background: linear-gradient(135deg, #333, #111);
+  color: #fff;
+  border: 2px solid #444;
+}
+
+.btn-opcao:hover {
+  background: linear-gradient(135deg, #00e5ff, #008cff);
+  color: #000;
+}
+
+/* ================= HOST / AGUARDE ================= */
+#aguarde {
+  color: #ffcc00;
+}
+
+/* ================= RANKING ================= */
 .ranking {
   max-width: 400px;
-  margin: 20px auto;
+  margin: 30px auto;
 }
 
 .ranking-item {
   background: #222;
   color: #fff;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 10px;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 14px;
   display: flex;
   justify-content: space-between;
+  font-size: 18px;
   opacity: 0;
   transform: translateY(20px);
   animation: aparecer 0.5s forwards;
@@ -38,6 +112,7 @@ button {
   font-weight: bold;
 }
 
+/* ================= ANIMAÇÃO ================= */
 @keyframes aparecer {
   to {
     opacity: 1;
@@ -45,7 +120,18 @@ button {
   }
 }
 
+/* ================= UTIL ================= */
 .hidden {
   display: none;
 }
 
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+  input {
+    width: 100%;
+  }
+
+  #respostas {
+    grid-template-columns: 1fr;
+  }
+}
