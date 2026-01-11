@@ -20,7 +20,7 @@ socket.on("connect", () => {
 });
 
 /* ================= TIMER VISUAL ================= */
-function iniciarTimer(segundos = 10) {
+function iniciarTimer(segundos = 20) {
   tempoRestante = segundos;
   const numeroEl = document.getElementById('timerNumero');
   const circleEl = document.getElementById('timerCircle');
@@ -33,7 +33,7 @@ function iniciarTimer(segundos = 10) {
     numeroEl.textContent = tempoRestante;
     
     // Animação do círculo (verde → vermelho)
-    const porcentagem = (tempoRestante / 10) * 360;
+    const porcentagem = (tempoRestante / 20) * 360;
     circleEl.style.background = 
       `conic-gradient(#10b981 0deg, #10b981 ${porcentagem}deg, #ef4444 ${porcentagem}deg 360deg)`;
     
