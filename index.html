@@ -1,78 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>TRIPLO F Party Game</title>
-
-<link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRIPLO F Party Game</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- ================= CONTAINER PRINCIPAL ================= -->
+  <div class="container">
+    
+    <h1>🎉 TRIPLO F - Party Game</h1>
 
-<h1>🎉 TRIPLO F - Party Game</h1>
+    <!-- ================= MENU ================= -->
+    <div id="menu">
+      <div class="input-group">
+        <input id="nome" placeholder="Seu nome">
+      </div>
+      <button class="btn" onclick="criarSala()">Criar Sala</button>
+      
+      <div style="margin: 25px 0;">
+        <hr style="border: none; height: 1px; background: rgba(255,255,255,0.2); margin: 25px 0;">
+        <span style="font-size: 14px; opacity: 0.8;">OU</span>
+        <hr style="border: none; height: 1px; background: rgba(255,255,255,0.2); margin: 25px 0;">
+      </div>
+      
+      <div class="input-group">
+        <input id="codigoSala" placeholder="Código da sala">
+      </div>
+      <button class="btn" onclick="entrarSala()">Entrar na Sala</button>
+    </div>
 
-<!-- ================= MENU ================= -->
-<div id="menu">
-<input id="nome" placeholder="Seu nome">
-<br>
-<button onclick="criarSala()">Criar Sala</button>
-<br><br>
-<input id="codigoSala" placeholder="Código da sala">
-<br>
-<button onclick="entrarSala()">Entrar</button>
-</div>
+    <!-- ================= JOGO ================= -->
+    <div id="jogo" style="display:none;">
+      
+      <!-- HEADER DO JOGO -->
+      <div class="header-jogo">
+        <div id="codigo"></div>
+        
+        <!-- HOST BUTTON -->
+        <button id="btnRodada" class="btn" onclick="iniciarRodada()" style="display:none;">
+          ▶ Nova Pergunta
+        </button>
+        
+        <!-- AGUARDE -->
+        <p id="aguarde" style="display:none;">
+          ⏳ Aguardando o host iniciar a rodada...
+        </p>
+      </div>
 
-<!-- ================= JOGO ================= -->
-<div id="jogo" style="display:none;">
+      <!-- TIMER -->
+      <div class="timer-container" id="timer" style="display:none;">
+        <div class="timer-circle" id="timerCircle">
+          <div class="timer-numero" id="timerNumero">10</div>
+        </div>
+      </div>
 
-<!-- Dentro da div #jogo -->
-<div class="timer-container" id="timer">
-<div class="timer-circle" id="timerCircle">
-<div class="timer-numero" id="timerNumero">10</div>
-</div>
-</div>
+      <!-- ================= PERGUNTA ================= -->
+      <div class="pergunta-container">
+        <div id="pergunta"></div>
+        
+        <!-- RESPOSTAS -->
+        <div id="respostas" class="hidden">
+          <button class="btn-opcao" onclick="responder('A')">A</button>
+          <button class="btn-opcao" onclick="responder('B')">B</button>
+          <button class="btn-opcao" onclick="responder('C')">C</button>
+          <button class="btn-opcao" onclick="responder('D')">D</button>
+        </div>
+      </div>
 
-<h2 id="codigo"></h2>
+      <!-- ================= RANKING ================= -->
+      <div id="ranking" class="ranking hidden"></div>
 
-<!-- ================= PERGUNTA ================= -->
-<div id="areaPergunta">
-<h3 id="pergunta"></h3>
+    </div>
+  </div>
 
-<!-- RESPOSTAS -->
-<div id="respostas">
-<button class="btn-opcao" onclick="responder('A')">A</button>
-<button class="btn-opcao" onclick="responder('B')">B</button>
-<button class="btn-opcao" onclick="responder('C')">C</button>
-<button class="btn-opcao" onclick="responder('D')">D</button>
-</div>
-
-</div>
-
-<!-- 👑 HOST -->
-<button
-id="btnRodada"
-onclick="iniciarRodada()"
-style="display:none;"
->
-▶ Iniciar Rodada
-</button>
-
-<!-- 👥 JOGADORES -->
-<p
-id="aguarde"
-style="display:none; font-weight:bold;"
->
-⏳ Aguardando o host iniciar a rodada...
-</p>
-
-<!-- ================= RANKING FINAL ================= -->
-<div id="ranking" class="ranking hidden"></div>
-
-</div>
-
-<!-- ================= SCRIPTS ================= -->
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script src="script.js"></script>
-
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
