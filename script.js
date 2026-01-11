@@ -4,7 +4,7 @@ const socket = io("https://party-game-server-bs3h.onrender.com");
 
 let salaAtual = "";
 let souHost = false;
-let tempoRestante = 10;
+let tempoRestante = 20;
 let timerInterval;
 
 /* ================= SONS (Base64 Inline) ================= */
@@ -127,7 +127,7 @@ socket.on("pergunta", texto => {
   document.querySelectorAll(".btn-opcao").forEach(btn => btn.disabled = false);
   
   // 🚀 TIMER VISUAL + ANIMAÇÃO
-  iniciarTimer(10);
+  iniciarTimer(20);
 });
 
 socket.on("jogadores", jogadores => {
