@@ -43,17 +43,22 @@ function iniciarRodada() {
   socket.emit("novaPergunta", salaAtual);
 }
 
-function enviarResposta() {
-  const resposta = document.getElementById("resposta").value.trim().toUpperCase();
-  if (!resposta) return;
+function responder(opcao) {
+  if (!salaAtual) return;
 
   socket.emit("responder", {
     sala: salaAtual,
-    resposta
+    resposta: opcao
   });
 
-  document.getElementById("resposta").value = "";
+  // 🔒 desativa botões após responder
+  document
+    .querySelectorAll(".btn-opcao")
+    .forEach(btn => btn.disabled = true);
+
+  console.log("Resposta enviada:", opcao);
 }
+
 
 /* ================= EVENTOS DO SERVIDOR ================= */
 
