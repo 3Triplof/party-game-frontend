@@ -103,3 +103,14 @@ socket.on("jogadores", lista => {
 socket.on("erro", msg => {
   alert(msg);
 });
+
+socket.on("ranking", ranking => {
+  const ul = document.getElementById("ranking");
+  ul.innerHTML = "";
+
+  ranking.forEach(j => {
+    const li = document.createElement("li");
+    li.innerText = `${j.nome}: ${j.pontos} pts`;
+    ul.appendChild(li);
+  });
+});
