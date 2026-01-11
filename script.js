@@ -97,6 +97,12 @@ socket.on("pergunta", texto => {
     .forEach(btn => btn.disabled = false);
 });
 
+socket.on("jogadores", jogadores => {
+  console.log("👥 Jogadores atualizados:", jogadores);
+  // Atualiza lista de jogadores local sempre que servidor envia
+  // (útil para debug, mas não essencial para ranking)
+});
+
 /* ================= FEEDBACK ================= */
 
 socket.on("resultadoResposta", ({ correta, pontos }) => {
