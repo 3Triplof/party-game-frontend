@@ -104,13 +104,25 @@ socket.on("erro", msg => {
   alert(msg);
 });
 
+
+
+socket.on("resultadoResposta", ({ correta, pontos }) => {
+  alert(
+    correta
+      ? `✅ Correto! +${pontos} pontos`
+      : `❌ Errado!`
+  );
+});
+
+
 socket.on("ranking", ranking => {
-  const ul = document.getElementById("ranking");
-  ul.innerHTML = "";
+  const lista = document.getElementById("ranking");
+  lista.innerHTML = "";
 
   ranking.forEach(j => {
     const li = document.createElement("li");
-    li.innerText = `${j.nome}: ${j.pontos} pts`;
-    ul.appendChild(li);
+    li.textContent = `${j.nome}: ${j.pontos} pts`;
+    lista.appendChild(li);
   });
 });
+
