@@ -45,26 +45,16 @@ function iniciarRodada() {
   socket.emit("novaPergunta", salaAtual);
 }
 
-function enviarResposta() {
+function responder(letra) {
   if (respondeu) return;
-
-  let resposta = document.getElementById("resposta").value.trim();
-  if (!resposta) return;
-
-  // ✅ NORMALIZA: pega só a primeira letra
-  resposta = resposta.toUpperCase()[0];
-
-  if (!["A", "B", "C", "D"].includes(resposta)) {
-    alert("Digite apenas A, B, C ou D");
-    return;
-  }
 
   respondeu = true;
 
   socket.emit("responder", {
     sala: salaAtual,
-    resposta
+    resposta: letra
   });
+}
 
   document.getElementById("resposta").value = "";
 }
