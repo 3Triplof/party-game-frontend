@@ -117,12 +117,21 @@ socket.on("entrouSala", sala => {
   document.getElementById("aguarde").style.display = "block";
 });
 
-socket.on("pergunta", texto => {
-  console.log("📝 Pergunta recebida:", texto);
+socket.on("pergunta", ({texto, tema, rodada}) => {
+  console.log(`🎯 ${tema} - Rodada ${rodada}`);
   
-  // 1. MOSTRA PERGUNTA
   const perguntaEl = document.getElementById("pergunta");
-  perguntaEl.innerText = texto;
+  
+  // 🔧 MOSTRA TEMA ACIMA DA PERGUNTA
+  perguntaEl.innerHTML = `
+    <div style="font-size: 0.8em; opacity: 0.7; margin-bottom: 15px; 
+                background: rgba(0,229,255,0.1); padding: 8px 15px; 
+                border-radius: 20px; display: inline-block; 
+                border: 1px solid rgba(0,229,255,0.3);">
+      🎯 ${tema} | Rodada ${rodada}/15
+    </div>
+    <div>${texto}</div>
+  `;
   perguntaEl.classList.add("pergunta-ativa");
 
   // 2. MOSTRA BOTÕES (FORÇA VISÍVEL)
