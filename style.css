@@ -160,6 +160,12 @@ button:disabled, .btn-opcao:disabled {
   border: 1px solid rgba(0,229,255,0.2);
 }
 
+#pergunta div:first-child {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+
 /* ================= TIMER MELHORADO ================= */
 .timer-container {
   position: relative;
