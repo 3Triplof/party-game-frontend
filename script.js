@@ -118,21 +118,34 @@ socket.on("entrouSala", sala => {
 });
 
 socket.on("pergunta", texto => {
-  document.getElementById("pergunta").innerText = texto;
-  document.getElementById("pergunta").classList.add("pergunta-ativa");
+  console.log("📝 Pergunta recebida:", texto);
+  
+  // 1. MOSTRA PERGUNTA
+  const perguntaEl = document.getElementById("pergunta");
+  perguntaEl.innerText = texto;
+  perguntaEl.classList.add("pergunta-ativa");
 
-  document.getElementById("ranking").innerHTML = "";
+  // 2. MOSTRA BOTÕES (FORÇA VISÍVEL)
+  const respostasEl = document.getElementById("respostas");
+  respostasEl.style.display = "block";
+  respostasEl.classList.remove("hidden"); // caso tenha
+  
+  console.log("✅ Botões mostrados:", respostasEl);
+
+  // 3. ESCONDE RANKING
   document.getElementById("ranking").classList.add("hidden");
 
-  document.querySelectorAll(".btn-opcao").forEach(btn => btn.disabled = false);
+  // 4. ATIVA BOTÕES
+  document.querySelectorAll(".btn-opcao").forEach(btn => {
+    btn.disabled = false;
+    console.log("🔘 Botão ativado:", btn.textContent);
+  });
   
-  // 🚀 TIMER VISUAL + ANIMAÇÃO
+  // 5. MOSTRA TIMER
+  document.getElementById("timer").style.display = "block";
   iniciarTimer(20);
 });
 
-socket.on("jogadores", jogadores => {
-  console.log("👥 Jogadores atualizados:", jogadores);
-});
 
 /* ================= FEEDBACK ================= */
 socket.on("resultadoResposta", ({ correta, pontos }) => {
