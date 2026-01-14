@@ -117,43 +117,65 @@ socket.on("entrouSala", sala => {
   document.getElementById("aguarde").style.display = "block";
 });
 
-socket.on("pergunta", ({texto, tema, rodada}) => {
+socket.on("pergunta", ({pergunta, alternativas, tema, rodada}) => {
   console.log(`🎯 ${tema} - Rodada ${rodada}`);
   
   const perguntaEl = document.getElementById("pergunta");
   
-  // 🔧 MOSTRA TEMA ACIMA DA PERGUNTA
-  perguntaEl.innerHTML = `
+  // 🔧 TEMA ACIMA
+  const temaDiv = `
     <div style="font-size: 0.8em; opacity: 0.7; margin-bottom: 15px; 
                 background: rgba(0,229,255,0.1); padding: 8px 15px; 
                 border-radius: 20px; display: inline-block; 
                 border: 1px solid rgba(0,229,255,0.3);">
       🎯 ${tema} | Rodada ${rodada}/15
     </div>
-    <div>${texto}</div>
   `;
+  
+  // ✅ PERGUNTA PRINCIPAL
+  const perguntaDiv = `
+    <div style="font-weight: 600; margin-bottom: 25px; font-size: 1.2em; line-height: 1.5;">
+      ${pergunta}
+    </div>
+  `;
+  
+  // ✅ ALTERNATIVAS BONITAS (uma embaixo da outra)
+  const alternativasDiv = alternativas.map((alt, i) => 
+    `<div class="alternativa-pergunta" data-letra="${String.fromCharCode(65+i)}">
+      ${alt}
+    </div>`
+  ).join('');
+  
+  // 🎨 MONTA TUDO JUNTINHO
+  perguntaEl.innerHTML = temaDiv + perguntaDiv + `
+    <div class="alternativas-pergunta">
+      ${alternativasDiv}
+    </div>
+  `;
+  
   perguntaEl.classList.add("pergunta-ativa");
 
-  // 2. MOSTRA BOTÕES (FORÇA VISÍVEL)
+  // 2. MOSTRA BOTÕES DE RESPOSTA (A B C D clicáveis)
   const respostasEl = document.getElementById("respostas");
   respostasEl.style.display = "block";
-  respostasEl.classList.remove("hidden"); // caso tenha
+  respostasEl.classList.remove("hidden");
   
-  console.log("✅ Botões mostrados:", respostasEl);
-
   // 3. ESCONDE RANKING
   document.getElementById("ranking").classList.add("hidden");
 
   // 4. ATIVA BOTÕES
-  document.querySelectorAll(".btn-opcao").forEach(btn => {
-    btn.disabled = false;
-    console.log("🔘 Botão ativado:", btn.textContent);
-  });
+  setTimeout(() => {
+    document.querySelectorAll(".btn-opcao").forEach(btn => {
+      btn.disabled = false;
+      console.log("🔘 Botão ativado:", btn.textContent);
+    });
+  }, 100);
   
-  // 5. MOSTRA TIMER
+  // 5. TIMER
   document.getElementById("timer").style.display = "block";
   iniciarTimer(20);
 });
+
 
 
 /* ================= FEEDBACK ================= */
